@@ -1,0 +1,34 @@
+{
+  "_aviso": "DADOS DE EXEMPLO pra desenvolvimento. O grupo deve substituir/completar com as especificações oficiais do site da GoodWe Brasil antes da entrega final. O prompt proíbe o modelo de falar de produto que não esteja aqui.",
+  "produtos": [
+    {
+      "modelo": "GoodWe HCA 7kW",
+      "tipo": "carregador veicular AC",
+      "potencia_kw": 7.4,
+      "conector": "Type 2",
+      "fases": "monofásico",
+      "uso": "residencial"
+    },
+    {
+      "modelo": "GoodWe HCA 11kW",
+      "tipo": "carregador veicular AC",
+      "potencia_kw": 11,
+      "conector": "Type 2",
+      "fases": "trifásico",
+      "uso": "residencial / condomínios"
+    },
+    {
+      "modelo": "GoodWe HCA 22kW",
+      "tipo": "carregador veicular AC",
+      "potencia_kw": 22,
+      "conector": "Type 2",
+      "fases": "trifásico",
+      "uso": "comercial / frotas"
+    }
+  ],
+  "conceitos": {
+    "carga_ac": "Corrente alternada, potências de 3,7 a 22 kW. É a carga de uso diário em casa e no trabalho.",
+    "carga_dc": "Corrente contínua, acima de 50 kW. Carga rápida em rodovias e eletropostos.",
+    "bidirecional": "Carregador que também devolve energia do carro pra rede ou pra casa (V2G/V2H)."
+  }
+}
