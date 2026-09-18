@@ -1,11 +1,10 @@
-"""Construção das chains LCEL — núcleo refatorado da Sprint 03.
+"""Monta as chains LCEL do chatbot.
 
-Duas chains:
-- conversacional: ChatPromptTemplate | llm | StrOutputParser (com memória por fora)
-- estruturada: prompt | llm -> ConsultaRecarga validado (Pydantic v2)
+São duas: a conversacional (prompt | llm | parser de texto, com memória por fora)
+e a estruturada (prompt | llm -> ConsultaRecarga validado).
 
-backend="ollama" usa o ChatOllama de verdade; backend="mock" usa um modelo
-determinístico pra rodar o pipeline sem GPU (teste de esteira, não de qualidade).
+backend="ollama" bate no ChatOllama de verdade. backend="mock" usa um modelinho
+determinístico só pra rodar o pipeline sem GPU.
 """
 
 import json
@@ -44,9 +43,9 @@ def carregar_base() -> str:
 
 
 class MockEVChat(BaseChatModel):
-    """Modelo fake determinístico: responde conforme as palavras da conversa.
+    """Modelo fake que responde conforme as palavras da conversa.
 
-    Não substitui modelo de verdade — serve pra validar o pipeline
+    Não substitui modelo de verdade. Serve pra validar o pipeline
     (guardrails, memória, parsing) em máquina sem Ollama.
     """
 
@@ -57,9 +56,8 @@ class MockEVChat(BaseChatModel):
         run_manager: object = None,
         **kwargs: object,
     ) -> ChatResult:
-        # roteia pela ÚLTIMA mensagem do usuário; o histórico entra só na
-        # resposta de memória — olhar tudo de uma vez faz o system prompt
-        # (que cita "bidirecional" na base) sequestrar o roteamento
+        # roteia pela última mensagem do usuário; olhar o histórico inteiro faz
+        # o system prompt (que cita "bidirecional" na base) sequestrar o roteio
         historico = " ".join(str(m.content) for m in messages).lower()
         ultima = ""
         for m in reversed(messages):
@@ -82,6 +80,9 @@ class MockEVChat(BaseChatModel):
             )
         elif ("meu carro" in ultima or "meu nome" in ultima) and "ex30" in historico:
             saida = "Seu carro é o Volvo EX30, com bateria de 69 kWh."
+        elif ("meu carro" in ultima or "meu nome" in ultima) and "dolphin" in historico:
+            # caso do demo_memoria.py: Ana + BYD Dolphin de 60 kWh
+            saida = "Pelo que você me contou: seu nome é Ana e seu carro é o BYD Dolphin, com bateria de 60 kWh."
         elif "bidirecional" in ultima:
             saida = (
                 "Um carregador bidirecional deixa a energia fluir nos dois sentidos: "
@@ -90,7 +91,7 @@ class MockEVChat(BaseChatModel):
             )
         elif ("ac" in ultima and "dc" in ultima) or "diferença" in ultima:
             saida = (
-                "Carga AC usa corrente alternada (3,7 a 22 kW) — é a do dia a dia, "
+                "Carga AC usa corrente alternada (3,7 a 22 kW), é a do dia a dia, "
                 "em casa e no trabalho. Carga DC é corrente contínua, acima de 50 kW, "
                 "a carga rápida de eletropostos e rodovias."
             )
@@ -99,7 +100,7 @@ class MockEVChat(BaseChatModel):
                 "No Brasil a GoodWe trabalha com a linha HCA de carregadores AC: "
                 "HCA 7kW (monofásico, residencial), HCA 11kW e HCA 22kW (trifásicos, "
                 "pra condomínios e frotas). Todos com conector Type 2. "
-                "Só afirmo o que consta na base oficial — se quiser um modelo que "
+                "Só afirmo o que consta na base oficial. Se quiser um modelo que "
                 "não está aqui, recomendo o suporte GoodWe."
             )
         else:
@@ -140,8 +141,8 @@ def chain_conversacional(cfg: Config, backend: str, versao_prompt: str) -> Runna
             ("human", "{pergunta}"),
         ]
     )
-    # a base vai como variável parcial: se fizesse replace direto na string,
-    # as chaves do JSON quebrariam o template f-string
+    # a base vai como variável parcial: se der replace direto na string,
+    # as chaves do JSON quebram o template f-string (quebramos a cara com isso)
     if "{base_conhecimento}" in system:
         prompt = prompt.partial(base_conhecimento=carregar_base())
     llm = criar_llm(cfg, backend)

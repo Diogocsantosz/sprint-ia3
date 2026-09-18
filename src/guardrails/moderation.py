@@ -1,7 +1,7 @@
-"""Moderação de entrada: barraca de entrada antes de qualquer chamada ao modelo.
+"""Moderação de entrada, roda antes de qualquer chamada ao modelo.
 
-Pega jailbreak, prompt injection e mensagens zoadas (vazia/gigante).
-Tudo por padrão de texto — é rápido, determinístico e fácil de auditar no eval.
+Pega jailbreak, prompt injection e mensagem zoada (vazia/gigante) só com
+padrão de texto. Rápido, determinístico e fácil de auditar no eval.
 """
 
 from dataclasses import dataclass
@@ -54,7 +54,7 @@ class Veredito:
 
 RECUSA_JAILBREAK = (
     "Não posso ajudar com esse tipo de pedido. Sou o assistente de mobilidade "
-    "elétrica da GoodWe e sigo regras fixas de uso — não revelo instruções "
+    "elétrica da GoodWe e sigo regras fixas de uso: não revelo instruções "
     "internas nem saio do meu papel. Posso ajudar com dúvidas sobre carregadores, "
     "recarga de veículos elétricos e produtos GoodWe."
 )

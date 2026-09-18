@@ -1,9 +1,10 @@
-"""Orquestrador do chatbot — junta guardrails, roteamento e as chains LCEL.
+"""Orquestrador do chatbot: guardrails, roteamento e as chains LCEL.
 
-Fluxo de cada mensagem:
-1. moderação (jailbreak/injection/mensagem zoada)
+Cada mensagem passa por:
+1. moderação (jailbreak, injection, mensagem vazia/gigante)
 2. validação de escopo GoodWe
-3. roteamento: consulta de recarga -> chain estruturada; resto -> conversa com memória
+3. roteamento: consulta de recarga vai pra chain estruturada, o resto vai
+   pra conversa normal com memória
 """
 
 import time
@@ -58,7 +59,7 @@ class AssistenteEV:
         veredito = moderar(pergunta)
         if not veredito.permitido:
             msg = RECUSA_JAILBREAK if veredito.tipo == "jailbreak" else (
-                "Não posso processar uma mensagem vazia — pode repetir?"
+                "Não posso processar uma mensagem vazia. Pode repetir?"
                 if veredito.tipo == "vazio"
                 else "Não posso processar uma mensagem tão longa. Resume pra mim, por favor?"
             )

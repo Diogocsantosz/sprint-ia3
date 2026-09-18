@@ -1,7 +1,7 @@
-"""Schema Pydantic v2 do domínio EV — saída estruturada das consultas de recarga.
+"""Schema Pydantic v2 das consultas de recarga.
 
-Quando o usuário pergunta status de estação, potência ou faturamento, a chain
-estruturada devolve um ConsultaRecarga validado em vez de texto livre.
+Quando o usuário pergunta de estação, potência ou faturamento, a chain
+devolve um ConsultaRecarga validado em vez de texto livre.
 """
 
 import re
@@ -34,7 +34,7 @@ class ConsultaRecarga(BaseModel):
     @field_validator("estado_carregador", mode="before")
     @classmethod
     def normaliza_estado(cls, v: object) -> object:
-        # modelos às vezes devolvem "Disponível" ou "em manutenção" — padroniza aqui
+        # modelos às vezes devolvem "Disponível" ou "em manutenção", padroniza aqui
         if isinstance(v, str):
             mapa = {
                 "disponível": "disponivel",

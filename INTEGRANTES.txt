@@ -1,9 +1,8 @@
-EV Challenge — GoodWe · Sprint 03 · Prompt and Artificial Intelligence · 2SEM 2026.2
+EV Challenge - GoodWe · Sprint 03 · Prompt and Artificial Intelligence · 2SEM 2026.2
 
-Nome: [PREENCHER] · RM: [PREENCHER] · Turma: [PREENCHER]
-Nome: [PREENCHER] · RM: [PREENCHER] · Turma: [PREENCHER]
-Nome: [PREENCHER] · RM: [PREENCHER] · Turma: [PREENCHER]
-Nome: [PREENCHER] · RM: [PREENCHER] · Turma: [PREENCHER]
-Nome: [PREENCHER] · RM: [PREENCHER] · Turma: [PREENCHER]
+Nome: Diogo Chiaradia Santos · RM: 570246
+Nome: Rafael Laprega Gontijo Magalhaes · RM: 561975
+Nome: Gustavo Torres de Oliveira · RM: 572952
+Nome: Lucas Furquim Lima · RM: 568690
 
-Link do repositório: [PREENCHER]
+Link do repositório: https://github.com/Diogocsantosz/sprint-ia3.git

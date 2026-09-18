@@ -1,4 +1,4 @@
-"""CLI do chatbot EV — GoodWe Brasil.
+"""CLI do chatbot EV - GoodWe Brasil.
 
 Uso:
     python main.py                      # conversa com Ollama (config do .env)
@@ -14,7 +14,7 @@ from src.config import carregar_config
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="Chatbot EV — GoodWe (Sprint 03)")
+    ap = argparse.ArgumentParser(description="Chatbot EV - GoodWe (Sprint 03)")
     ap.add_argument("--mock", action="store_true", help="roda sem Ollama (modelo fake)")
     ap.add_argument("--prompt", default="v2", choices=["v1", "v2"])
     ap.add_argument("--sessao", default="cli")
@@ -23,7 +23,7 @@ def main() -> None:
     cfg = carregar_config()
     bot = AssistenteEV(cfg, backend="mock" if args.mock else "ollama", versao_prompt=args.prompt)
 
-    print("Chatbot EV — GoodWe Brasil (Sprint 03)")
+    print("Chatbot EV - GoodWe Brasil (Sprint 03)")
     print(f"backend: {'mock' if args.mock else cfg.modelo_principal} | prompt: {args.prompt} | sessão: {args.sessao}")
     print("Digite /sair pra encerrar.\n")
 

@@ -1,4 +1,4 @@
-"""Configurações do projeto — tudo vem de variável de ambiente ou do .env."""
+"""Configs do projeto. Tudo vem de variável de ambiente ou do .env."""
 
 import os
 from dataclasses import dataclass

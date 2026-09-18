@@ -1,4 +1,4 @@
-"""BÔNUS (+1 pt): chamada multi-provider — mais de um modelo × mais de um prompt.
+"""BÔNUS (+1 pt): chamada multi-provider, mais de um modelo x mais de um prompt.
 
 Roda as mesmas 3 perguntas em 2 modelos (principal e comparação) com as 2
 versões de system prompt, medindo latência e tokens de saída.

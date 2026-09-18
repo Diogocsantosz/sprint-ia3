@@ -1,6 +1,6 @@
-# EV Challenge — GoodWe · Sprint 03
+# EV Challenge - GoodWe · Sprint 03
 
-Chatbot de mobilidade elétrica da GoodWe Brasil, com o núcleo conversacional refatorado em **LangChain LCEL** — chain `prompt | llm | parser`, memória por sessão com limite de tokens, saída estruturada Pydantic v2 e guardrails de escopo/segurança.
+Chatbot de mobilidade elétrica da GoodWe Brasil. Núcleo conversacional refatorado em **LangChain LCEL**: chain `prompt | llm | parser`, memória por sessão com limite de tokens, saída estruturada em Pydantic v2 e guardrails de escopo e segurança.
 
 FIAP · Prompt and Artificial Intelligence · 2SEM 2026.2 · Prof. Jorge Luiz Gomes
 
@@ -9,10 +9,10 @@ FIAP · Prompt and Artificial Intelligence · 2SEM 2026.2 · Prof. Jorge Luiz Go
 ```
 prompts/            system prompt versionado (v1, v2) + tabela de versões (VERSOES.md)
 src/chain/          builder.py (chains LCEL) e memoria.py (sessão + limite de tokens)
-src/schemas/        consulta.py — ConsultaRecarga (Pydantic v2, field_validator)
+src/schemas/        consulta.py, o ConsultaRecarga (Pydantic v2, field_validator)
 src/guardrails/     moderation.py (jailbreak/injection) e scope_validator.py (escopo GoodWe)
-src/legacy/         chatbot_legado.py — versão manual das Sprints 1/2 (base do comparativo)
-src/data/           base_goodwe.json — base de conhecimento de produtos
+src/legacy/         chatbot_legado.py, versão manual das Sprints 1/2 (base do comparativo)
+src/data/           base_goodwe.json, base de conhecimento de produtos
 evals/              eval_set.json + run_evals.py + sprint3_results.json
 scripts/            demo_memoria.py (3+ turnos) e multi_provider.py (bônus)
 docs/               relatorio_modelos.md, relatorio_evolucao.md, resultados multi-provider
@@ -28,7 +28,7 @@ pip install -r requirements.txt
 copy .env.example .env   # ajuste OLLAMA_HOST e modelos
 ```
 
-Sem GPU/Ollama local, tudo roda em modo simulado com `--mock` (valida o pipeline inteiro: guardrails, memória, parsing — só a geração é determinística).
+Sem GPU/Ollama local dá pra rodar tudo em modo simulado com `--mock`. Valida o pipeline inteiro (guardrails, memória, parsing), só a geração que é determinística.
 
 ## Como rodar
 
@@ -44,6 +44,6 @@ python scripts/multi_provider.py                       # bônus: 2 modelos x 2 p
 
 ## Notas
 
-- `ConversationTokenBufferMemory` e `RunnableWithMessageHistory` são a stack pedida na Sprint 03 (Aula 02). No LangChain 1.x vivem no pacote `langchain-classic` e estão deprecated — a migração pra LangGraph é assunto do Módulo 3.
-- Credenciais/host ficam no `.env` (gitignored). Nenhuma chave no histórico do Git.
-- `src/data/base_goodwe.json` tem dados de exemplo: substituir pelas especificações oficiais da GoodWe Brasil antes da entrega.
+- `ConversationTokenBufferMemory` e `RunnableWithMessageHistory` são a stack pedida na Sprint 03 (Aula 02). No LangChain 1.x elas vivem no pacote `langchain-classic` e estão deprecated. A migração pra LangGraph é assunto do Módulo 3.
+- Credenciais e host ficam no `.env` (gitignored). Nenhuma chave no histórico do Git.
+- `src/data/base_goodwe.json` tem dados de exemplo. Substituir pelas especificações oficiais da GoodWe Brasil antes da entrega.

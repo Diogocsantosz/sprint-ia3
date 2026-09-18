@@ -1,29 +1,29 @@
 """Validação de escopo GoodWe.
 
 O assistente só fala de mobilidade elétrica, recarga e produtos GoodWe.
-Pedidos de aconselhamento jurídico, financeiro ou de segurança elétrica são
-recusados — sempre orientando a procurar profissional habilitado.
+Pedido de conselho jurídico, financeiro ou de mexer na parte elétrica é
+recusado, sempre mandando a pessoa pra um profissional habilitado.
 """
 
 from dataclasses import dataclass
 
 RECUSA_JURIDICO = (
-    "Não posso dar orientação jurídica — isso exige análise de um advogado. "
-    "Se o assunto envolve seus direitos como consumidor, procure um advogado "
+    "Não posso dar orientação jurídica, isso é assunto pra advogado. "
+    "Se o problema envolve seus direitos como consumidor, procure um advogado "
     "ou o Procon. Posso ajudar com dúvidas técnicas sobre recarga e produtos GoodWe."
 )
 
 RECUSA_FINANCEIRO = (
-    "Não posso dar recomendação financeira ou de investimento. Para isso, "
-    "procure um profissional habilitado (ex.: planejador financeiro certificado). "
-    "Posso ajudar com informações técnicas sobre carregadores e recarga de EVs."
+    "Não posso dar recomendação financeira ou de investimento. Pra isso, "
+    "procure um profissional habilitado (um planejador financeiro certificado, "
+    "por exemplo). Posso ajudar com informações técnicas sobre carregadores e recarga de EVs."
 )
 
 RECUSA_ELETRICA = (
-    "Não posso orientar instalação ou manutenção elétrica por conta própria — "
-    "mexer com elétrica sem qualificação é risco de vida. Procure um eletricista "
-    "habilitado (norma NR-10) ou um integrador autorizado GoodWe. Posso explicar "
-    "conceitos gerais sobre recarga, se quiser."
+    "Não posso orientar instalação ou manutenção elétrica por conta própria. "
+    "Mexer com elétrica sem qualificação é risco de vida. Procure um eletricista "
+    "habilitado (norma NR-10) ou um integrador autorizado GoodWe. Se quiser, "
+    "eu explico os conceitos gerais de recarga."
 )
 
 # categoria -> (gatilhos, mensagem de recusa)

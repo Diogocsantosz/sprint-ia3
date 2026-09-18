@@ -13,4 +13,4 @@
 
 ## Tokens por versão (tiktoken, cl100k_base)
 
-Medidos em `evals/sprint3_results.json` (campo `tokens_system_prompt`) — atualizar aqui depois da rodada com os modelos reais.
+Medidos em `evals/sprint3_results.json` (campo `tokens_system_prompt`). Atualizar aqui depois da rodada com os modelos reais.

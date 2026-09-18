@@ -1,4 +1,4 @@
-"""Runner do eval set — gera o sprint3_results.json usado no relatório.
+"""Roda o eval set e grava o sprint3_results.json usado no relatório.
 
 Uso:
     python evals/run_evals.py --versao lcel --mock      # pipeline novo, sem GPU
@@ -6,7 +6,7 @@ Uso:
     python evals/run_evals.py --versao lcel             # com Ollama de verdade
     python evals/run_evals.py --versao lcel --prompt v1 # mede outra versão de prompt
 
-Rodando as duas versões, o JSON final fica com o comparativo antes/depois pronto.
+Rodando as duas versões, o JSON final já fica com o comparativo antes/depois.
 """
 
 import argparse

@@ -1,12 +1,12 @@
-"""Memória conversacional por sessão com limite de tokens (Aula 02).
+"""Memória por sessão com limite de tokens (Aula 02).
 
-RunnableWithMessageHistory cuida de ligar session_id -> histórico.
-ConversationTokenBufferMemory cuida do limite: depois de cada turno a gente
-chama prune() pra jogar fora as mensagens mais antigas quando estourar o teto.
+O RunnableWithMessageHistory liga session_id -> histórico. O
+ConversationTokenBufferMemory guarda o teto de tokens, e depois de cada
+turno a gente poda o histórico jogando fora as mensagens mais antigas.
 
-(ConversationTokenBufferMemory saiu do pacote principal no LangChain 1.x e hoje
-vive no langchain-classic — o caminho oficial futuro é LangGraph, que é assunto
-do Módulo 3. Como a Sprint 03 pede explicitamente essa stack, seguimos com ela.)
+Detalhe: essa stack saiu do pacote principal no LangChain 1.x e hoje vive no
+langchain-classic. O futuro oficial é LangGraph (Módulo 3), mas a Sprint 03
+pede essa stack, então é ela que usamos.
 """
 
 import warnings
@@ -20,7 +20,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 
 from src.utils.tokens import contar_tokens
 
-# stack pedida pela Sprint 03 é deprecated no LangChain 1.x — aviso já registrado acima
+# a stack da Aula 02 tá deprecated no LangChain 1.x, o warning é barulho conhecido
 warnings.filterwarnings("ignore", category=LangChainDeprecationWarning)
 
 
@@ -43,15 +43,15 @@ class GerenciadorMemoria:
         mem = self._memorias.get(session_id)
         if mem is None:
             return 0
-        # tiktoken em vez do contador do llm: o default do LangChain 1.x puxa
-        # transformers inteiro só pra isso, e o tiktoken já é dependência do projeto
+        # tiktoken em vez do contador do llm: o default do LangChain 1.x puxa o
+        # transformers inteiro só pra contar token, e o tiktoken já tá no projeto
         return sum(contar_tokens(str(m.content)) for m in mem.chat_memory.messages)
 
     def podar(self, session_id: str) -> None:
         mem = self._memorias.get(session_id)
         if mem is None:
             return
-        # mesma lógica do antigo prune(): joga fora as mais antigas até caber no teto
+        # mesma ideia do antigo prune(): tira as mais antigas até caber no teto
         msgs = mem.chat_memory.messages
         while msgs and self._tokens_historico(session_id) > mem.max_token_limit:
             msgs.pop(0)

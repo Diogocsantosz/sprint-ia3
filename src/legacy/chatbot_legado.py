@@ -1,11 +1,11 @@
-"""Versão manual das Sprints 1/2 — mantida de propósito pro comparativo antes/depois.
+"""Versão manual das Sprints 1/2, mantida de propósito pro comparativo antes/depois.
 
-O que ela faz de "errado" (e que a Sprint 03 corrige):
+Os problemas dela (que a Sprint 03 corrige):
 - prompt montado na mão com concatenação de string
-- histórico cresce sem limite nenhum de tokens
-- sem guardrails: jailbreak passa direto pro modelo
-- saída "estruturada" é json.loads na sorte — quebrou, quebrou
-- chamada HTTP crua pro Ollama, sem abstração
+- histórico cresce sem limite de tokens
+- zero guardrails: jailbreak passa direto pro modelo
+- saída "estruturada" é json.loads na sorte, quebrou quebrou
+- chamada HTTP crua pro Ollama, sem abstração nenhuma
 """
 
 import json
@@ -39,7 +39,7 @@ class ChatbotLegado:
             # clássico: modelo pequeno mistura prosa com JSON e quebra o parse
             return (
                 'Claro! Olha só o que encontrei: {"estacao_id": "EST-01", '
-                '"estado": "disponivel", "potencia_kw": 7.4} — espero ter ajudado!'
+                '"estado": "disponivel", "potencia_kw": 7.4} - espero ter ajudado!'
             )
         if "ex30" in low:
             return "Seu carro é o Volvo EX30."
