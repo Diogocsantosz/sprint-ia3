@@ -17,10 +17,25 @@ PROMPT_FIXO = "Você é o assistente de mobilidade elétrica da GoodWe Brasil. R
 
 
 class ChatbotLegado:
-    def __init__(self, host: str, modelo: str, mock: bool = False) -> None:
+    def __init__(
+        self,
+        host: str,
+        modelo: str,
+        mock: bool = False,
+        temperatura: float = 0.2,
+        top_p: float = 0.9,
+        max_tokens: int = 512,
+        seed: int = 42,
+    ) -> None:
         self.host = host
         self.modelo = modelo
         self.mock = mock
+        self.opcoes = {
+            "temperature": temperatura,
+            "top_p": top_p,
+            "num_predict": max_tokens,
+            "seed": seed,
+        }
         self.historico: list[tuple[str, str]] = []
 
     def _montar_prompt(self, pergunta: str) -> str:
@@ -57,7 +72,13 @@ class ChatbotLegado:
         else:
             resp = httpx.post(
                 f"{self.host}/api/generate",
-                json={"model": self.modelo, "prompt": prompt, "stream": False},
+                json={
+                    "model": self.modelo,
+                    "prompt": prompt,
+                    "stream": False,
+                    "think": False,
+                    "options": self.opcoes,
+                },
                 timeout=120,
             )
             resp.raise_for_status()

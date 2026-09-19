@@ -42,8 +42,12 @@ def main() -> None:
 
         if resp.tipo == "estruturada" and resp.dados is not None:
             print(f"volt: {resp.dados.resposta}")
-            print(f"  [dados] estação={resp.dados.estacao_id} | estado={resp.dados.estado_carregador} "
-                  f"| {resp.dados.potencia_kw} kW | faturamento R$ {resp.dados.faturamento_periodo_brl}")
+            print(
+                f"  [dados] estação={resp.dados.estacao_id} | "
+                f"estado={resp.dados.estado_carregador or 'não disponível'} | "
+                f"potência={resp.dados.potencia_kw or 'não disponível'} | "
+                f"faturamento={resp.dados.faturamento_periodo_brl or 'não disponível'}"
+            )
         else:
             print(f"volt: {resp.conteudo}")
         print(f"  [{resp.tipo} | {resp.tokens_turno} tokens | {resp.latencia_s}s]")

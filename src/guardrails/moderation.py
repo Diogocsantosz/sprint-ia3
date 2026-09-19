@@ -4,6 +4,7 @@ Pega jailbreak, prompt injection e mensagem zoada (vazia/gigante) só com
 padrão de texto. Rápido, determinístico e fácil de auditar no eval.
 """
 
+import unicodedata
 from dataclasses import dataclass
 
 # padrões clássicos de jailbreak/injection, em PT e EN
@@ -40,6 +41,12 @@ PADROES_JAILBREAK = [
     "imprima suas instruções",
     "print your instructions",
     "system prompt",
+    "prompt inicial",
+    "prompt interno",
+    "instrucoes internas",
+    "ignorar instrucoes",
+    "burlar essas regras",
+    "burlar as regras",
 ]
 
 LIMITE_CARACTERES = 4000
@@ -60,6 +67,13 @@ RECUSA_JAILBREAK = (
 )
 
 
+def _normalizar(texto: str) -> str:
+    return "".join(
+        c for c in unicodedata.normalize("NFD", texto.lower())
+        if unicodedata.category(c) != "Mn"
+    )
+
+
 def moderar(mensagem: str) -> Veredito:
     texto = mensagem.strip()
 
@@ -69,9 +83,9 @@ def moderar(mensagem: str) -> Veredito:
     if len(texto) > LIMITE_CARACTERES:
         return Veredito(False, f"mensagem acima de {LIMITE_CARACTERES} caracteres", "longo_demais")
 
-    low = texto.lower()
+    low = _normalizar(texto)
     for padrao in PADROES_JAILBREAK:
-        if padrao in low:
+        if _normalizar(padrao) in low:
             return Veredito(False, f"padrão de jailbreak/injection detectado: '{padrao}'", "jailbreak")
 
     return Veredito(True)

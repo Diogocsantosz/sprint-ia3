@@ -51,10 +51,12 @@ class GerenciadorMemoria:
         mem = self._memorias.get(session_id)
         if mem is None:
             return
-        # mesma ideia do antigo prune(): tira as mais antigas até caber no teto
+        # Remove turnos completos para não deixar uma resposta sem a pergunta.
         msgs = mem.chat_memory.messages
         while msgs and self._tokens_historico(session_id) > mem.max_token_limit:
             msgs.pop(0)
+            if msgs and msgs[0].type == "ai":
+                msgs.pop(0)
 
     def tokens_sessao(self, session_id: str) -> int:
         return self._tokens_historico(session_id)

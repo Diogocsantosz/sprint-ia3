@@ -17,15 +17,17 @@ class Config:
     top_p: float
     max_tokens: int
     memoria_max_tokens: int
+    seed: int
 
 
 def carregar_config() -> Config:
     return Config(
         ollama_host=os.getenv("OLLAMA_HOST", "http://localhost:11434"),
-        modelo_principal=os.getenv("MODELO_PRINCIPAL", "gpt-oss:120b"),
-        modelo_comparacao=os.getenv("MODELO_COMPARACAO", "qwen3:8b"),
+        modelo_principal=os.getenv("MODELO_PRINCIPAL", "qwen3:8b"),
+        modelo_comparacao=os.getenv("MODELO_COMPARACAO", "gemma3:1b"),
         temperatura=float(os.getenv("TEMPERATURA", "0.2")),
         top_p=float(os.getenv("TOP_P", "0.9")),
         max_tokens=int(os.getenv("MAX_TOKENS", "512")),
         memoria_max_tokens=int(os.getenv("MEMORIA_MAX_TOKENS", "1200")),
+        seed=int(os.getenv("SEED", "42")),
     )

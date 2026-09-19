@@ -1,13 +1,13 @@
 # Relatório de uso de modelos e parâmetros - Sprint 03
 
-Comparativo entre os modelos servidos via Ollama. Rodar `python scripts/multi_provider.py` e `python evals/run_evals.py --versao lcel` com o Ollama ativo pra preencher os campos marcados com _(medir)_.
+Comparativo entre dois modelos servidos localmente pelo Ollama. A rodada foi feita em 19/09/2026 com o mesmo ambiente e as mesmas perguntas.
 
 ## Modelos comparados
 
 | Modelo | Tamanho | Papel no projeto |
 |--------|---------|------------------|
-| `gpt-oss:120b` | 120B | modelo principal do chatbot |
-| `qwen3:8b` | 8B | modelo de comparação |
+| `qwen3:8b` | 8,2B, Q4_K_M | modelo principal; melhor nota no eval |
+| `gemma3:1b` | 1B | comparação leve; menor latência |
 
 ## Parâmetros de geração
 
@@ -17,29 +17,32 @@ Comparativo entre os modelos servidos via Ollama. Rodar `python scripts/multi_pr
 | `top_p` | 0.9 | nucleus sampling padrão; com temperatura baixa, mantém a fluidez sem divagar |
 | `max_tokens` (`num_predict`) | 512 | respostas curtas (máx. 3 parágrafos no prompt v2); limita custo e latência |
 | memória (`max_token_limit`) | 1200 | dá uns 6 a 8 turnos de conversa; acima disso a poda remove os turnos mais antigos |
+| `seed` | 42 | torna as rodadas comparáveis e reproduzíveis |
 
 Valores lidos do `.env` (ver `.env.example`).
 
 ## Resultados
 
-### Latência e tokens (multi-provider: 2 modelos x 2 prompts x 3 perguntas)
+### Latência e tokens (2 modelos x 2 prompts x 3 perguntas)
 
 | Modelo | Prompt | Latência média (s) | Tokens médios de saída |
 |--------|--------|--------------------|------------------------|
-| gpt-oss:120b | v1 | _(medir)_ | _(medir)_ |
-| gpt-oss:120b | v2 | _(medir)_ | _(medir)_ |
-| qwen3:8b | v1 | _(medir)_ | _(medir)_ |
-| qwen3:8b | v2 | _(medir)_ | _(medir)_ |
+| qwen3:8b | v1 | 8,349 | 376,3 |
+| qwen3:8b | v2 | 4,141 | 174,7 |
+| gemma3:1b | v1 | 1,346 | 262,3 |
+| gemma3:1b | v2 | 0,466 | 86,0 |
 
 Dados brutos: `docs/multi_provider_resultados.json`.
 
-### Qualidade (eval set, 13 casos)
+### Qualidade (eval set, 17 casos)
 
 | Modelo | Nota média (0-10) | Recusas corretas | Acurácia structured output |
 |--------|-------------------|------------------|----------------------------|
-| gpt-oss:120b | _(medir)_ | _(medir)_ | _(medir)_ |
-| qwen3:8b | _(medir)_ | _(medir)_ | _(medir)_ |
+| qwen3:8b · v1 | 9,71 | 8/8 | 100% |
+| qwen3:8b · v2 | 10,00 | 8/8 | 100% |
+| gemma3:1b · v1 | 8,42 | 8/8 | 0% |
+| gemma3:1b · v2 | 9,01 | 8/8 | 0% |
 
 ## Conclusão
 
-_(preencher após a rodada real: qual modelo ficou no projeto e por quê, pesando qualidade, latência e custo)_
+O `qwen3:8b` ficou como principal porque teve a maior nota e acertou os campos estruturados. O `gemma3:1b` foi mais rápido, mas não extraiu o identificador das estações nos dois casos estruturados. O prompt v2 foi mantido porque melhorou a nota dos dois modelos e produziu respostas mais curtas, mesmo com um system prompt maior.

@@ -15,7 +15,7 @@ src/legacy/         chatbot_legado.py, versão manual das Sprints 1/2 (base do c
 src/data/           base_goodwe.json, base de conhecimento de produtos
 evals/              eval_set.json + run_evals.py + sprint3_results.json
 scripts/            demo_memoria.py (3+ turnos) e multi_provider.py (bônus)
-docs/               relatorio_modelos.md, relatorio_evolucao.md, resultados multi-provider
+docs/               relatórios de evolução, modelos e resultados comparativos
 main.py             CLI do chatbot
 ```
 
@@ -28,7 +28,7 @@ pip install -r requirements.txt
 copy .env.example .env   # ajuste OLLAMA_HOST e modelos
 ```
 
-Sem GPU/Ollama local dá pra rodar tudo em modo simulado com `--mock`. Valida o pipeline inteiro (guardrails, memória, parsing), só a geração que é determinística.
+Sem GPU/Ollama local dá pra testar o fluxo da aplicação com `--mock`. As respostas nesse modo são fixas, então ele não serve para medir a qualidade dos prompts.
 
 ## Como rodar
 
@@ -46,4 +46,5 @@ python scripts/multi_provider.py                       # bônus: 2 modelos x 2 p
 
 - `ConversationTokenBufferMemory` e `RunnableWithMessageHistory` são a stack pedida na Sprint 03 (Aula 02). No LangChain 1.x elas vivem no pacote `langchain-classic` e estão deprecated. A migração pra LangGraph é assunto do Módulo 3.
 - Credenciais e host ficam no `.env` (gitignored). Nenhuma chave no histórico do Git.
-- `src/data/base_goodwe.json` tem dados de exemplo. Substituir pelas especificações oficiais da GoodWe Brasil antes da entrega.
+- As especificações em `src/data/base_goodwe.json` foram conferidas na página e no datasheet oficiais da GoodWe Brasil em 19/09/2026.
+- A aplicação não está integrada à telemetria do SEMS. Consultas de estação são estruturadas, mas status, consumo e faturamento ficam vazios para evitar dados inventados.

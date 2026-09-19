@@ -8,6 +8,7 @@ determinístico só pra rodar o pipeline sem GPU.
 """
 
 import json
+import re
 from pathlib import Path
 
 from langchain_core.language_models.chat_models import BaseChatModel
@@ -23,12 +24,15 @@ from src.schemas.consulta import ConsultaRecarga
 PASTA_PROMPTS = Path(__file__).resolve().parent.parent.parent / "prompts"
 ARQUIVO_BASE = Path(__file__).resolve().parent.parent / "data" / "base_goodwe.json"
 
-PROMPT_EXTRACAO = """Você extrai dados de uma consulta de recarga de veículo elétrico.
+PROMPT_EXTRACAO = """Você estrutura uma consulta de recarga de veículo elétrico.
 Responda SOMENTE com um JSON válido seguindo este schema:
 {instrucoes}
 
-Se algum dado numérico não for mencionado, invente valores plausíveis de uma
-estação típica da GoodWe (7 a 22 kW). estacao_id no formato EST-XX."""
+Extraia o identificador informado pelo usuário ou use null se ele não aparecer.
+Não há telemetria conectada nesta aplicação: use null para estado, potência, energia, custo e faturamento que não
+tenham sido fornecidos. Nunca invente valores. Em resposta, explique de forma
+breve que é preciso consultar o SEMS ou a fonte operacional. estacao_id deve
+seguir o formato EST-XX."""
 
 
 def carregar_prompt(versao: str) -> str:
@@ -65,16 +69,22 @@ class MockEVChat(BaseChatModel):
                 ultima = str(m.content).lower()
                 break
 
-        if "extrai dados de uma consulta" in historico:
+        if "estrutura uma consulta de recarga" in historico:
+            correspondencia = re.search(r"\best-\d{2,4}\b", ultima, re.IGNORECASE)
+            estacao_id = correspondencia.group(0).upper() if correspondencia else None
             saida = json.dumps(
                 {
-                    "estacao_id": "EST-01",
-                    "estado_carregador": "disponivel",
-                    "potencia_kw": 7.4,
-                    "energia_kwh": 32.5,
-                    "custo_estimado_brl": 58.9,
-                    "faturamento_periodo_brl": 412.3,
-                    "resposta": "A estação EST-01 está disponível, com potência de 7,4 kW. No período ela entregou 32,5 kWh e o faturamento foi de R$ 412,30.",
+                    "estacao_id": estacao_id,
+                    "estado_carregador": None,
+                    "potencia_kw": None,
+                    "energia_kwh": None,
+                    "custo_estimado_brl": None,
+                    "faturamento_periodo_brl": None,
+                    "resposta": (
+                        f"Não tenho telemetria da estação {estacao_id}. "
+                        "Consulte o SEMS para verificar status, consumo e faturamento."
+                        if estacao_id else "Informe o identificador da estação no formato EST-XX."
+                    ),
                 },
                 ensure_ascii=False,
             )
@@ -98,8 +108,7 @@ class MockEVChat(BaseChatModel):
         elif "carregador" in ultima or "carregadores" in ultima or "kw" in ultima:
             saida = (
                 "No Brasil a GoodWe trabalha com a linha HCA de carregadores AC: "
-                "HCA 7kW (monofásico, residencial), HCA 11kW e HCA 22kW (trifásicos, "
-                "pra condomínios e frotas). Todos com conector Type 2. "
+                "GW7K-HCA (monofásico), GW11K-HCA e GW22K-HCA (trifásicos). "
                 "Só afirmo o que consta na base oficial. Se quiser um modelo que "
                 "não está aqui, recomendo o suporte GoodWe."
             )
@@ -129,6 +138,8 @@ def criar_llm(cfg: Config, backend: str, modelo: str | None = None) -> BaseChatM
         temperature=cfg.temperatura,
         top_p=cfg.top_p,
         num_predict=cfg.max_tokens,
+        reasoning=False,
+        seed=cfg.seed,
     )
 
 

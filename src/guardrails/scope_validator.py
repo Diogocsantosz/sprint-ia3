@@ -26,11 +26,17 @@ RECUSA_ELETRICA = (
     "eu explico os conceitos gerais de recarga."
 )
 
+RECUSA_FORA_ESCOPO = (
+    "Esse assunto fica fora do meu escopo. Posso ajudar com carregadores GoodWe, "
+    "recarga de veículos elétricos e conceitos de mobilidade elétrica."
+)
+
 # categoria -> (gatilhos, mensagem de recusa)
 CATEGORIAS_PROIBIDAS = {
     "juridico": (
         [
-            "advogado", "processar", "processo judicial", "indenização",
+            "advogado", "processar a concessionária", "processar a concessionaria",
+            "processo judicial", "indenização",
             "indenizacao", "procon", "direitos do consumidor", "jurídico",
             "juridico", "entrar na justiça", "código de defesa do consumidor",
         ],
@@ -56,6 +62,17 @@ CATEGORIAS_PROIBIDAS = {
     ),
 }
 
+TERMOS_DO_ESCOPO = [
+    "goodwe", "hca", "carregador", "recarga", "carregar", "veículo elétrico",
+    "veiculo eletrico", "carro elétrico", "carro eletrico", "meu carro",
+    "estação", "estacao", "bateria", "kwh", "kw", "corrente alternada",
+    "corrente contínua", "corrente continua", "carga ac", "carga dc", "type 2",
+    "tipo 2", "bidirecional", "v2g", "v2h", "sems", "energia solar",
+    "fotovolta", "wallbox", "eletroposto", "meu nome",
+]
+
+SAUDACOES = {"oi", "olá", "ola", "bom dia", "boa tarde", "boa noite", "obrigado", "obrigada"}
+
 
 @dataclass
 class ResultadoEscopo:
@@ -65,9 +82,20 @@ class ResultadoEscopo:
 
 
 def validar_escopo(mensagem: str) -> ResultadoEscopo:
-    low = mensagem.lower()
+    low = mensagem.lower().strip()
     for categoria, (gatilhos, recusa) in CATEGORIAS_PROIBIDAS.items():
         for gatilho in gatilhos:
             if gatilho in low:
                 return ResultadoEscopo(False, categoria, recusa)
-    return ResultadoEscopo(True)
+
+    if low in SAUDACOES or any(termo in low for termo in TERMOS_DO_ESCOPO):
+        return ResultadoEscopo(True)
+
+    marcadores_de_pergunta = (
+        "?", "quem ", "qual ", "como ", "onde ", "quando ", "por que ",
+        "conte ", "explique ",
+    )
+    if not any(marcador in low for marcador in marcadores_de_pergunta):
+        return ResultadoEscopo(True)
+
+    return ResultadoEscopo(False, "fora_escopo", RECUSA_FORA_ESCOPO)

@@ -15,9 +15,9 @@ EstadoCarregador = Literal["disponivel", "ocupado", "reservado", "offline", "man
 class ConsultaRecarga(BaseModel):
     """Resposta estruturada de uma consulta de recarga/estação."""
 
-    estacao_id: str = Field(description="Identificador da estação, formato EST-XX")
-    estado_carregador: EstadoCarregador
-    potencia_kw: float = Field(gt=0, le=350, description="Potência do carregador em kW")
+    estacao_id: Optional[str] = Field(default=None, description="Identificador da estação, formato EST-XX")
+    estado_carregador: Optional[EstadoCarregador] = None
+    potencia_kw: Optional[float] = Field(default=None, gt=0, le=350, description="Potência do carregador em kW")
     energia_kwh: Optional[float] = Field(default=None, ge=0)
     custo_estimado_brl: Optional[float] = Field(default=None, ge=0)
     faturamento_periodo_brl: Optional[float] = Field(default=None, ge=0)
@@ -25,7 +25,9 @@ class ConsultaRecarga(BaseModel):
 
     @field_validator("estacao_id")
     @classmethod
-    def formato_estacao(cls, v: str) -> str:
+    def formato_estacao(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return None
         v = v.strip().upper()
         if not re.fullmatch(r"EST-\d{2,4}", v):
             raise ValueError("estacao_id deve seguir o padrão EST-XX (ex.: EST-01)")
@@ -54,8 +56,8 @@ class ConsultaRecarga(BaseModel):
 
     @field_validator("potencia_kw")
     @classmethod
-    def potencia_plausivel(cls, v: float) -> float:
+    def potencia_plausivel(cls, v: Optional[float]) -> Optional[float]:
         # acima de 350 kW não existe em carregador veicular comercial hoje
-        if v > 350:
+        if v is not None and v > 350:
             raise ValueError("potência acima do plausível para carregador veicular")
         return v

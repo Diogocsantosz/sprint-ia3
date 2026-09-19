@@ -1,4 +1,4 @@
-"""BÔNUS (+1 pt): chamada multi-provider, mais de um modelo x mais de um prompt.
+"""BÔNUS (+1 pt): comparação de mais de um modelo x mais de um prompt.
 
 Roda as mesmas 3 perguntas em 2 modelos (principal e comparação) com as 2
 versões de system prompt, medindo latência e tokens de saída.
@@ -34,11 +34,13 @@ PERGUNTAS = [
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--mock", action="store_true")
+    ap.add_argument("--modelos", nargs="+", help="modelos do Ollama que serão comparados")
     args = ap.parse_args()
 
     cfg = carregar_config()
     backend = "mock" if args.mock else "ollama"
-    modelos = ["mock-ev"] if args.mock else [cfg.modelo_principal, cfg.modelo_comparacao]
+    modelos_configurados = args.modelos or [cfg.modelo_principal, cfg.modelo_comparacao]
+    modelos = ["mock-ev"] if args.mock else list(dict.fromkeys(modelos_configurados))
 
     resultados = []
 

@@ -72,6 +72,20 @@ class AssistenteEV:
         if eh_consulta_recarga(pergunta):
             dados = self.chain_consulta.invoke({"pergunta": pergunta})
             if isinstance(dados, ConsultaRecarga):
+                # O modelo estrutura a solicitação, mas não é fonte de telemetria.
+                dados = dados.model_copy(update={
+                    "estado_carregador": None,
+                    "potencia_kw": None,
+                    "energia_kwh": None,
+                    "custo_estimado_brl": None,
+                    "faturamento_periodo_brl": None,
+                    "resposta": (
+                        f"Não tenho telemetria da estação {dados.estacao_id}. "
+                        "Consulte o SEMS para verificar status, consumo e faturamento."
+                        if dados.estacao_id
+                        else "Informe o identificador da estação no formato EST-XX."
+                    ),
+                })
                 return self._fecha("estruturada", dados.resposta, dados, pergunta, t0)
 
         texto = self.chain_conversa.invoke(

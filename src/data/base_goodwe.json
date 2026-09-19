@@ -1,34 +1,48 @@
 {
-  "_aviso": "DADOS DE EXEMPLO pra desenvolvimento. O grupo deve substituir/completar com as especificações oficiais do site da GoodWe Brasil antes da entrega final. O prompt proíbe o modelo de falar de produto que não esteja aqui.",
+  "_fonte": {
+    "descricao": "Página e folha de dados oficiais da linha HCA no site da GoodWe Brasil",
+    "pagina": "https://br.goodwe.com/hca-evcharger",
+    "datasheet": "https://br.goodwe.com/Ftp/Downloads/Datasheet/PT/GW_HCA%20Series%20EV%20Charger_Datasheet-PT.pdf",
+    "consultado_em": "2026-09-19"
+  },
   "produtos": [
     {
-      "modelo": "GoodWe HCA 7kW",
+      "modelo": "GW7K-HCA",
       "tipo": "carregador veicular AC",
-      "potencia_kw": 7.4,
-      "conector": "Type 2",
+      "potencia_kw": 7,
+      "tensao_nominal_v": 230,
+      "corrente_nominal_a": 32,
       "fases": "monofásico",
-      "uso": "residencial"
+      "frequencia_hz": "50/60",
+      "dimensoes_mm": "208 x 450 x 150",
+      "protecao": "IP66"
     },
     {
-      "modelo": "GoodWe HCA 11kW",
+      "modelo": "GW11K-HCA",
       "tipo": "carregador veicular AC",
       "potencia_kw": 11,
-      "conector": "Type 2",
+      "tensao_nominal_v": 400,
+      "corrente_nominal_a": 16,
       "fases": "trifásico",
-      "uso": "residencial / condomínios"
+      "frequencia_hz": "50/60",
+      "dimensoes_mm": "208 x 450 x 150",
+      "protecao": "IP66"
     },
     {
-      "modelo": "GoodWe HCA 22kW",
+      "modelo": "GW22K-HCA",
       "tipo": "carregador veicular AC",
       "potencia_kw": 22,
-      "conector": "Type 2",
+      "tensao_nominal_v": 400,
+      "corrente_nominal_a": 32,
       "fases": "trifásico",
-      "uso": "comercial / frotas"
+      "frequencia_hz": "50/60",
+      "dimensoes_mm": "208 x 450 x 150",
+      "protecao": "IP66"
     }
   ],
   "conceitos": {
     "carga_ac": "Corrente alternada, potências de 3,7 a 22 kW. É a carga de uso diário em casa e no trabalho.",
     "carga_dc": "Corrente contínua, acima de 50 kW. Carga rápida em rodovias e eletropostos.",
-    "bidirecional": "Carregador que também devolve energia do carro pra rede ou pra casa (V2G/V2H)."
+    "bidirecional": "Fluxo de energia em dois sentidos, como V2G ou V2H. A linha HCA descrita nesta base não é apresentada como bidirecional pela GoodWe Brasil."
   }
 }

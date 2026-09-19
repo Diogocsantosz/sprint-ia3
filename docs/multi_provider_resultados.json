@@ -1,59 +1,113 @@
 {
-  "mock": true,
+  "mock": false,
   "resultados": [
     {
-      "modelo": "mock-ev",
+      "modelo": "qwen3:8b",
       "prompt": "v1",
       "pergunta": "Quais carregadores a GoodWe oferece no Brasil?",
-      "latencia_s": 0.008,
-      "tokens_saida": 99,
+      "latencia_s": 7.92,
+      "tokens_saida": 347,
       "tokens_system_prompt": 80,
-      "saida": "No Brasil a GoodWe trabalha com a linha HCA de carregadores AC: HCA 7kW (monofásico, residencial), HCA 11kW e HCA 22kW (trifásicos, pra condomínios e frotas). Todos com conector Type 2. Só afirmo o que consta na base oficial. Se quiser um modelo que não está aqui, recomendo o suporte GoodWe."
+      "saida": "A GoodWe Brasil oferece uma linha de carregadores de veículos elétricos (EV Chargers) adaptados para o mercado brasileiro, com opções para diferentes tipos de veículos e instalações. Alguns dos carregadores mais comuns e disponíveis incluem:\n\n1. **GoodWe TS 11 kW** – Um carregador de 11 kW trifásico"
     },
     {
-      "modelo": "mock-ev",
+      "modelo": "qwen3:8b",
       "prompt": "v1",
       "pergunta": "O que é carga bidirecional?",
-      "latencia_s": 0.001,
-      "tokens_saida": 61,
+      "latencia_s": 5.913,
+      "tokens_saida": 276,
       "tokens_system_prompt": 80,
-      "saida": "Um carregador bidirecional deixa a energia fluir nos dois sentidos: além de carregar o carro, devolve energia da bateria pra casa (V2H) ou pra rede (V2G). É a base dos projetos de veículo-como-bateria."
+      "saida": "A **carga bidirecional** é uma tecnologia que permite que um **carregador de veículo elétrico (EV)** não apenas **carregue a bateria do veículo** a partir da rede elétrica, mas também **retorne energia armazenada na bateria do veículo para a rede elétrica**. \n\nEssa capacidade é especialmente útil em"
     },
     {
-      "modelo": "mock-ev",
+      "modelo": "qwen3:8b",
       "prompt": "v1",
       "pergunta": "Qual a diferença entre carga AC e DC?",
-      "latencia_s": 0.0,
-      "tokens_saida": 62,
+      "latencia_s": 11.213,
+      "tokens_saida": 506,
       "tokens_system_prompt": 80,
-      "saida": "Carga AC usa corrente alternada (3,7 a 22 kW), é a do dia a dia, em casa e no trabalho. Carga DC é corrente contínua, acima de 50 kW, a carga rápida de eletropostos e rodovias."
+      "saida": "A diferença entre **carga AC** (Alternada) e **carga DC** (Corrente Contínua) está no tipo de corrente elétrica utilizada para recarregar o veículo elétrico, bem como na velocidade e na infraestrutura necessária para a recarga.\n\n### **Carga AC (Alternada):**\n- **Corrente Alternada**: A corrente é al"
     },
     {
-      "modelo": "mock-ev",
+      "modelo": "qwen3:8b",
       "prompt": "v2",
       "pergunta": "Quais carregadores a GoodWe oferece no Brasil?",
-      "latencia_s": 0.001,
-      "tokens_saida": 99,
-      "tokens_system_prompt": 376,
-      "saida": "No Brasil a GoodWe trabalha com a linha HCA de carregadores AC: HCA 7kW (monofásico, residencial), HCA 11kW e HCA 22kW (trifásicos, pra condomínios e frotas). Todos com conector Type 2. Só afirmo o que consta na base oficial. Se quiser um modelo que não está aqui, recomendo o suporte GoodWe."
+      "latencia_s": 5.116,
+      "tokens_saida": 198,
+      "tokens_system_prompt": 382,
+      "saida": "A GoodWe oferece no Brasil os seguintes carregadores veiculares AC da linha HCA:  \n- **GW7K-HCA**: potência de 7 kW, monofásico, tensão nominal de 230 V e corrente nominal de 32 A.  \n- **GW11K-HCA**: potência de 11 kW, trifásico, tensão nominal de 400 V e corrente nominal de 16 A.  \n- **GW22K-HCA**:"
     },
     {
-      "modelo": "mock-ev",
+      "modelo": "qwen3:8b",
       "prompt": "v2",
       "pergunta": "O que é carga bidirecional?",
-      "latencia_s": 0.0,
-      "tokens_saida": 61,
-      "tokens_system_prompt": 376,
-      "saida": "Um carregador bidirecional deixa a energia fluir nos dois sentidos: além de carregar o carro, devolve energia da bateria pra casa (V2H) ou pra rede (V2G). É a base dos projetos de veículo-como-bateria."
+      "latencia_s": 4.306,
+      "tokens_saida": 193,
+      "tokens_system_prompt": 382,
+      "saida": "Carga bidirecional é um tipo de recarga que permite o fluxo de energia em dois sentidos entre o veículo elétrico e a rede elétrica. Isso significa que, além de carregar o veículo com energia da rede, o carro pode também liberar energia armazenada em sua bateria de volta para a rede ou para outro dis"
     },
     {
-      "modelo": "mock-ev",
+      "modelo": "qwen3:8b",
       "prompt": "v2",
       "pergunta": "Qual a diferença entre carga AC e DC?",
-      "latencia_s": 0.0,
-      "tokens_saida": 62,
-      "tokens_system_prompt": 376,
-      "saida": "Carga AC usa corrente alternada (3,7 a 22 kW), é a do dia a dia, em casa e no trabalho. Carga DC é corrente contínua, acima de 50 kW, a carga rápida de eletropostos e rodovias."
+      "latencia_s": 3.001,
+      "tokens_saida": 133,
+      "tokens_system_prompt": 382,
+      "saida": "A carga AC (corrente alternada) é a mais comum em residências e locais de trabalho, com potências que variam de 3,7 a 22 kW, e é ideal para uso diário. Já a carga DC (corrente contínua) é mais rápida, com potências acima de 50 kW, e é usada em estações de carregamento rápidas, como rodovias e eletro"
+    },
+    {
+      "modelo": "gemma3:1b",
+      "prompt": "v1",
+      "pergunta": "Quais carregadores a GoodWe oferece no Brasil?",
+      "latencia_s": 1.117,
+      "tokens_saida": 195,
+      "tokens_system_prompt": 80,
+      "saida": "Olá! No Brasil, a GoodWe oferece uma variedade de carregadores para veículos elétricos, incluindo:\n\n*   **GoodWe EV Charger:** O carregador principal da GoodWe, projetado para carregar veículos elétricos de diferentes modelos.\n*   **GoodWe Solar Charger:** Carregadores solares que utilizam a energia"
+    },
+    {
+      "modelo": "gemma3:1b",
+      "prompt": "v1",
+      "pergunta": "O que é carga bidirecional?",
+      "latencia_s": 1.419,
+      "tokens_saida": 290,
+      "tokens_system_prompt": 80,
+      "saida": "Olá! 👋\n\nA carga bidirecional é uma tecnologia que permite que o carregador de veículos elétricos recarregue a bateria do veículo e também recarregue a bateria do ponto de carregamento. Em outras palavras, é como se o veículo e o carregador estivessem \"conversando\" em termos de energia.\n\n**Como funci"
+    },
+    {
+      "modelo": "gemma3:1b",
+      "prompt": "v1",
+      "pergunta": "Qual a diferença entre carga AC e DC?",
+      "latencia_s": 1.503,
+      "tokens_saida": 302,
+      "tokens_system_prompt": 80,
+      "saida": "Olá! 😊\n\nA diferença entre carga AC (Corrente Alternada) e DC (Corrente Contínua) é fundamental para entender como funciona a recarga do seu veículo elétrico.\n\n*   **Carga AC (Corrente Alternada):** Essa é a forma mais comum de recarregar veículos elétricos. Ela utiliza uma corrente elétrica que vari"
+    },
+    {
+      "modelo": "gemma3:1b",
+      "prompt": "v2",
+      "pergunta": "Quais carregadores a GoodWe oferece no Brasil?",
+      "latencia_s": 0.559,
+      "tokens_saida": 91,
+      "tokens_system_prompt": 382,
+      "saida": "O Volt oferece os seguintes carregadores veiculares AC da GoodWe no Brasil:\n\n*   **GW7K-HCA:** Potência de 7 kW.\n*   **GW11K-HCA:** Potência de 11 kW.\n*   **GW22K-HCA:** Potência de 22 kW.\n\nNão tenho essa informação na minha base oficial. Sugiro o suporte GoodWe para mais detalhes."
+    },
+    {
+      "modelo": "gemma3:1b",
+      "prompt": "v2",
+      "pergunta": "O que é carga bidirecional?",
+      "latencia_s": 0.456,
+      "tokens_saida": 96,
+      "tokens_system_prompt": 382,
+      "saida": "A carga bidirecional é um sistema de carregamento elétrico que permite a troca de energia entre o veículo elétrico e a rede elétrica. Isso significa que o veículo pode carregar a rede elétrica, e a rede pode carregar o veículo. É uma tecnologia que busca aumentar a eficiência da rede elétrica e redu"
+    },
+    {
+      "modelo": "gemma3:1b",
+      "prompt": "v2",
+      "pergunta": "Qual a diferença entre carga AC e DC?",
+      "latencia_s": 0.383,
+      "tokens_saida": 71,
+      "tokens_system_prompt": 382,
+      "saida": "A diferença entre carga AC e DC reside na forma como a energia é transmitida e utilizada. A carga AC (Alternada) é utilizada para carregar veículos elétricos, e a carga DC (Contínua) é utilizada para carregar baterias de veículos elétricos e em sistemas de energia.\n"
     }
   ]
 }
