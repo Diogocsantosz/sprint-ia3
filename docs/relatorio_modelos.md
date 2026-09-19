@@ -1,13 +1,14 @@
 # Relatório de uso de modelos e parâmetros - Sprint 03
 
-Comparativo entre dois modelos servidos localmente pelo Ollama. A rodada foi feita em 19/09/2026 com o mesmo ambiente e as mesmas perguntas.
+Comparativo entre dois modelos servidos localmente pelo Ollama. A rodada foi feita em 19/09/2026 com o mesmo ambiente e as mesmas perguntas. O projeto também aceita Groq como segundo provedor; a integração externa depende de `GROQ_API_KEY` e deve ser medida separadamente para não misturar resultados não executados com esta tabela.
 
-## Modelos comparados
+## Modelos configurados
 
-| Modelo | Tamanho | Papel no projeto |
-|--------|---------|------------------|
-| `qwen3:8b` | 8,2B, Q4_K_M | modelo principal; melhor nota no eval |
-| `gemma3:1b` | 1B | comparação leve; menor latência |
+| Provedor | Modelo | Tamanho | Papel no projeto |
+|----------|--------|---------|------------------|
+| Ollama | `qwen3:8b` | 8,2B, Q4_K_M | modelo principal; melhor nota no eval |
+| Ollama | `gemma3:1b` | 1B | comparação leve; menor latência |
+| Groq | `llama-3.3-70b-versatile` | 70B | segundo provedor; execução opcional com chave externa |
 
 ## Parâmetros de geração
 

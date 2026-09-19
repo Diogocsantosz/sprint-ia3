@@ -1,6 +1,7 @@
 {
   "lcel": {
     "mock": true,
+    "provider": "mock",
     "modelo": "mock-ev",
     "resumo": {
       "nota_media": 10.0,
@@ -399,6 +400,7 @@
   },
   "legado": {
     "mock": false,
+    "provider": "ollama",
     "modelo": "qwen3:8b",
     "resumo": {
       "nota_media": 7.04,
@@ -746,6 +748,7 @@
   },
   "lcel_prompt_v1": {
     "mock": true,
+    "provider": "mock",
     "modelo": "mock-ev",
     "resumo": {
       "nota_media": 10.0,
@@ -1144,6 +1147,7 @@
   },
   "lcel_qwen3_8b_v1": {
     "mock": false,
+    "provider": "ollama",
     "modelo": "qwen3:8b",
     "resumo": {
       "nota_media": 9.71,
@@ -1544,6 +1548,7 @@
   },
   "lcel_qwen3_8b_v2": {
     "mock": false,
+    "provider": "ollama",
     "modelo": "qwen3:8b",
     "resumo": {
       "nota_media": 10.0,
@@ -1942,6 +1947,7 @@
   },
   "lcel_gemma3_1b_v1": {
     "mock": false,
+    "provider": "ollama",
     "modelo": "gemma3:1b",
     "resumo": {
       "nota_media": 8.42,
@@ -2352,6 +2358,7 @@
   },
   "lcel_gemma3_1b_v2": {
     "mock": false,
+    "provider": "ollama",
     "modelo": "gemma3:1b",
     "resumo": {
       "nota_media": 9.01,

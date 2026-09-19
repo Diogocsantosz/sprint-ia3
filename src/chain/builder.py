@@ -3,11 +3,12 @@
 São duas: a conversacional (prompt | llm | parser de texto, com memória por fora)
 e a estruturada (prompt | llm -> ConsultaRecarga validado).
 
-backend="ollama" bate no ChatOllama de verdade. backend="mock" usa um modelinho
-determinístico só pra rodar o pipeline sem GPU.
+Os provedores disponíveis são Ollama e Groq. O mock determinístico permite
+validar o pipeline em uma máquina sem modelo ou acesso externo.
 """
 
 import json
+import os
 import re
 from pathlib import Path
 
@@ -130,17 +131,35 @@ def criar_llm(cfg: Config, backend: str, modelo: str | None = None) -> BaseChatM
     if backend == "mock":
         return MockEVChat()
 
-    from langchain_ollama import ChatOllama
+    if backend == "ollama":
+        from langchain_ollama import ChatOllama
 
-    return ChatOllama(
-        model=modelo or cfg.modelo_principal,
-        base_url=cfg.ollama_host,
-        temperature=cfg.temperatura,
-        top_p=cfg.top_p,
-        num_predict=cfg.max_tokens,
-        reasoning=False,
-        seed=cfg.seed,
-    )
+        return ChatOllama(
+            model=modelo or cfg.modelo_principal,
+            base_url=cfg.ollama_host,
+            temperature=cfg.temperatura,
+            top_p=cfg.top_p,
+            num_predict=cfg.max_tokens,
+            reasoning=False,
+            seed=cfg.seed,
+        )
+
+    if backend == "groq":
+        if not os.getenv("GROQ_API_KEY"):
+            raise RuntimeError(
+                "GROQ_API_KEY não configurada. Adicione a chave ao arquivo .env."
+            )
+
+        from langchain_groq import ChatGroq
+
+        return ChatGroq(
+            model=modelo or cfg.modelo_groq,
+            temperature=cfg.temperatura,
+            max_tokens=cfg.max_tokens,
+            model_kwargs={"top_p": cfg.top_p, "seed": cfg.seed},
+        )
+
+    raise ValueError(f"Provedor desconhecido: {backend}")
 
 
 def chain_conversacional(cfg: Config, backend: str, versao_prompt: str) -> Runnable:
@@ -171,8 +190,7 @@ def chain_estruturada(cfg: Config, backend: str) -> Runnable:
 
     llm = criar_llm(cfg, backend)
 
-    if backend == "ollama":
-        # structured output nativo do Ollama (format=json + schema)
+    if backend in ("ollama", "groq"):
         return prompt | llm.with_structured_output(ConsultaRecarga)
 
     return prompt | llm | parser

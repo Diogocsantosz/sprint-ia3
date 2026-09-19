@@ -3,6 +3,7 @@
 Uso:
     python main.py                      # conversa com Ollama (config do .env)
     python main.py --mock               # sem GPU: pipeline inteiro em modo simulado
+    python main.py --provider groq      # usa o segundo provedor
     python main.py --prompt v1          # testa outra versão de system prompt
     python main.py --sessao fulano      # isola a memória por sessão
 """
@@ -16,15 +17,23 @@ from src.config import carregar_config
 def main() -> None:
     ap = argparse.ArgumentParser(description="Chatbot EV - GoodWe (Sprint 03)")
     ap.add_argument("--mock", action="store_true", help="roda sem Ollama (modelo fake)")
+    ap.add_argument("--provider", choices=["ollama", "groq"], default="ollama")
     ap.add_argument("--prompt", default="v2", choices=["v1", "v2"])
     ap.add_argument("--sessao", default="cli")
     args = ap.parse_args()
 
     cfg = carregar_config()
-    bot = AssistenteEV(cfg, backend="mock" if args.mock else "ollama", versao_prompt=args.prompt)
+    backend = "mock" if args.mock else args.provider
+    try:
+        bot = AssistenteEV(cfg, backend=backend, versao_prompt=args.prompt)
+    except RuntimeError as exc:
+        ap.error(str(exc))
 
     print("Chatbot EV - GoodWe Brasil (Sprint 03)")
-    print(f"backend: {'mock' if args.mock else cfg.modelo_principal} | prompt: {args.prompt} | sessão: {args.sessao}")
+    modelo = "mock-ev" if args.mock else (
+        cfg.modelo_groq if args.provider == "groq" else cfg.modelo_principal
+    )
+    print(f"provedor: {backend} | modelo: {modelo} | prompt: {args.prompt} | sessão: {args.sessao}")
     print("Digite /sair pra encerrar.\n")
 
     while True:
