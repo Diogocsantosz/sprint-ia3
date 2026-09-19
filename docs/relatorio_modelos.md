@@ -52,3 +52,4 @@ Dados brutos: `docs/multi_provider_resultados.json`.
 ## Conclusão
 
 O `qwen3:8b` continua como principal porque roda localmente, alcançou nota 10 e acertou os campos estruturados. O `openai/gpt-oss-20b` também chegou a 10 e teve a menor latência na comparação de prompts, mas depende de conexão e chave externa. O `gemma3:1b` é leve, porém falhou na extração dos identificadores de estação. Nos três modelos, o prompt v2 produziu respostas mais curtas.
+
