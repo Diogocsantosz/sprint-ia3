@@ -1,12 +1,11 @@
 """Memória por sessão com limite de tokens (Aula 02).
 
-O RunnableWithMessageHistory liga session_id -> histórico. O
-ConversationTokenBufferMemory guarda o teto de tokens, e depois de cada
-turno a gente poda o histórico jogando fora as mensagens mais antigas.
+O RunnableWithMessageHistory associa cada session_id ao seu histórico. O
+ConversationTokenBufferMemory define o teto de tokens, e a poda remove os
+turnos mais antigos quando esse limite é ultrapassado.
 
-Detalhe: essa stack saiu do pacote principal no LangChain 1.x e hoje vive no
-langchain-classic. O futuro oficial é LangGraph (Módulo 3), mas a Sprint 03
-pede essa stack, então é ela que usamos.
+Essa stack saiu do pacote principal no LangChain 1.x e hoje fica no
+langchain-classic. Ela foi mantida por ser a implementação pedida na Sprint 03.
 """
 
 import warnings
@@ -20,7 +19,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 
 from src.utils.tokens import contar_tokens
 
-# a stack da Aula 02 tá deprecated no LangChain 1.x, o warning é barulho conhecido
+# A stack da Aula 02 está deprecated no LangChain 1.x.
 warnings.filterwarnings("ignore", category=LangChainDeprecationWarning)
 
 
@@ -43,8 +42,8 @@ class GerenciadorMemoria:
         mem = self._memorias.get(session_id)
         if mem is None:
             return 0
-        # tiktoken em vez do contador do llm: o default do LangChain 1.x puxa o
-        # transformers inteiro só pra contar token, e o tiktoken já tá no projeto
+        # O tiktoken mantém a mesma régua usada nas avaliações e evita uma
+        # dependência adicional apenas para essa contagem.
         return sum(contar_tokens(str(m.content)) for m in mem.chat_memory.messages)
 
     def podar(self, session_id: str) -> None:

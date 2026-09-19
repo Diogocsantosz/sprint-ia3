@@ -1,7 +1,7 @@
-"""Moderação de entrada, roda antes de qualquer chamada ao modelo.
+"""Moderação de entrada executada antes de qualquer chamada ao modelo.
 
-Pega jailbreak, prompt injection e mensagem zoada (vazia/gigante) só com
-padrão de texto. Rápido, determinístico e fácil de auditar no eval.
+Detecta jailbreak, prompt injection e mensagens inválidas por padrões de texto.
+O comportamento é determinístico e pode ser auditado no eval.
 """
 
 import unicodedata

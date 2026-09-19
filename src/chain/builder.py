@@ -48,10 +48,10 @@ def carregar_base() -> str:
 
 
 class MockEVChat(BaseChatModel):
-    """Modelo fake que responde conforme as palavras da conversa.
+    """Modelo simulado que responde conforme as palavras da conversa.
 
-    Não substitui modelo de verdade. Serve pra validar o pipeline
-    (guardrails, memória, parsing) em máquina sem Ollama.
+    Ele valida o pipeline (guardrails, memória e parsing) em uma máquina sem
+    Ollama, mas não serve para avaliar a qualidade dos prompts.
     """
 
     def _generate(
@@ -61,8 +61,8 @@ class MockEVChat(BaseChatModel):
         run_manager: object = None,
         **kwargs: object,
     ) -> ChatResult:
-        # roteia pela última mensagem do usuário; olhar o histórico inteiro faz
-        # o system prompt (que cita "bidirecional" na base) sequestrar o roteio
+        # O roteamento usa a última mensagem do usuário. O histórico completo
+        # inclui termos da base que poderiam interferir nessa escolha.
         historico = " ".join(str(m.content) for m in messages).lower()
         ultima = ""
         for m in reversed(messages):
@@ -100,7 +100,12 @@ class MockEVChat(BaseChatModel):
                 "além de carregar o carro, devolve energia da bateria pra casa (V2H) "
                 "ou pra rede (V2G). É a base dos projetos de veículo-como-bateria."
             )
-        elif ("ac" in ultima and "dc" in ultima) or "diferença" in ultima:
+        elif (
+            ("ac" in ultima and "dc" in ultima)
+            or "diferença" in ultima
+            or "carga ac" in ultima
+            or "carga dc" in ultima
+        ):
             saida = (
                 "Carga AC usa corrente alternada (3,7 a 22 kW), é a do dia a dia, "
                 "em casa e no trabalho. Carga DC é corrente contínua, acima de 50 kW, "
@@ -172,8 +177,8 @@ def chain_conversacional(cfg: Config, backend: str, versao_prompt: str) -> Runna
             ("human", "{pergunta}"),
         ]
     )
-    # a base vai como variável parcial: se der replace direto na string,
-    # as chaves do JSON quebram o template f-string (quebramos a cara com isso)
+    # A variável parcial evita que as chaves do JSON sejam interpretadas como
+    # variáveis do template.
     if "{base_conhecimento}" in system:
         prompt = prompt.partial(base_conhecimento=carregar_base())
     llm = criar_llm(cfg, backend)

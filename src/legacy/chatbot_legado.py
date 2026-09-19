@@ -1,11 +1,11 @@
-"""Versão manual das Sprints 1/2, mantida de propósito pro comparativo antes/depois.
+"""Versão manual das Sprints 1/2, mantida para o comparativo antes/depois.
 
 Os problemas dela (que a Sprint 03 corrige):
-- prompt montado na mão com concatenação de string
+- prompt montado por concatenação de strings
 - histórico cresce sem limite de tokens
-- zero guardrails: jailbreak passa direto pro modelo
-- saída "estruturada" é json.loads na sorte, quebrou quebrou
-- chamada HTTP crua pro Ollama, sem abstração nenhuma
+- não há guardrails antes da chamada ao modelo
+- saída estruturada depende de json.loads sobre texto livre
+- chamada HTTP direta ao Ollama
 """
 
 import json
@@ -47,11 +47,11 @@ class ChatbotLegado:
 
     def _gerar_mock(self, pergunta: str) -> str:
         low = pergunta.lower()
-        # sem moderação: se pedirem pra ignorar instruções, o legado "obedece"
+        # O legado não aplica moderação antes da chamada ao modelo.
         if "ignore" in low or "dan" in low or "system prompt" in low:
             return "Claro! Vou ignorar minhas instruções anteriores e fazer o que você pediu."
         if "est-" in low or "faturamento" in low:
-            # clássico: modelo pequeno mistura prosa com JSON e quebra o parse
+            # Simula uma resposta com prosa ao redor do JSON.
             return (
                 'Claro! Olha só o que encontrei: {"estacao_id": "EST-01", '
                 '"estado": "disponivel", "potencia_kw": 7.4} - espero ter ajudado!'
@@ -89,5 +89,5 @@ class ChatbotLegado:
         return saida
 
     def tentar_extrair_json(self, texto: str) -> dict:
-        """Jeito Sprint 1/2 de pegar JSON: na fé."""
+        """Tenta interpretar diretamente a resposta como JSON."""
         return json.loads(texto)

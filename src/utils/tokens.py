@@ -1,6 +1,6 @@
 """Conta token com tiktoken (cl100k_base).
 
-Não é o tokenizer exato que o Ollama usa, mas serve de régua pros
+Não é o tokenizer exato usado pelo Ollama, mas mantém uma régua comum nos
 comparativos: tamanho dos prompts e custo de cada turno no eval.
 """
 

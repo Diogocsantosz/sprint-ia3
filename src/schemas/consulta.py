@@ -57,7 +57,7 @@ class ConsultaRecarga(BaseModel):
     @field_validator("potencia_kw")
     @classmethod
     def potencia_plausivel(cls, v: Optional[float]) -> Optional[float]:
-        # acima de 350 kW não existe em carregador veicular comercial hoje
+        # Limite de validação adotado para as consultas deste projeto.
         if v is not None and v > 350:
             raise ValueError("potência acima do plausível para carregador veicular")
         return v
