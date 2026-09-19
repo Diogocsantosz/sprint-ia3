@@ -67,7 +67,11 @@ def main() -> None:
 
             for pergunta in PERGUNTAS:
                 t0 = time.perf_counter()
+                tentativas = 1
                 saida = chain.invoke({"pergunta": pergunta})
+                if not saida.strip():
+                    tentativas += 1
+                    saida = chain.invoke({"pergunta": pergunta})
                 lat = round(time.perf_counter() - t0, 3)
 
                 resultados.append({
@@ -76,6 +80,7 @@ def main() -> None:
                     "prompt": versao,
                     "pergunta": pergunta,
                     "latencia_s": lat,
+                    "tentativas": tentativas,
                     "tokens_saida": contar_tokens(saida),
                     "tokens_system_prompt": contar_tokens(system),
                     "saida": saida[:300],

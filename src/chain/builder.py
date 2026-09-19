@@ -156,6 +156,7 @@ def criar_llm(cfg: Config, backend: str, modelo: str | None = None) -> BaseChatM
             model=modelo or cfg.modelo_groq,
             temperature=cfg.temperatura,
             max_tokens=cfg.max_tokens,
+            reasoning_effort="low",
             model_kwargs={"top_p": cfg.top_p, "seed": cfg.seed},
         )
 
